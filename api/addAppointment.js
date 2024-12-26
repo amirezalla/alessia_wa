@@ -1,5 +1,8 @@
 const { get } = require("@vercel/edge-config");
-const updateEdgeConfig = require("./updateEdgeConfig");
+const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
+
+const EDGE_CONFIG_ID = "ecfg_mto8g7fjl7onvugnv6bdpe2wddao";
+const EDGE_CONFIG_TOKEN = "35e1cbaa-631b-499c-be7c-94188e81e73f";
 
 module.exports = async (req, res) => {
     if (req.method !== "POST") {
@@ -19,9 +22,30 @@ module.exports = async (req, res) => {
         // Add new appointment
         data.push({ name, phone, date, time });
 
-        // Update Edge Config
-        const result = await updateEdgeConfig("appointments", data);
-        console.log("Edge Config update result:", result);
+        // Update Edge Config using the API
+        const response = await fetch(`https://api.vercel.com/v1/edge-config/${EDGE_CONFIG_ID}/items`, {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${EDGE_CONFIG_TOKEN}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                items: [
+                    {
+                        operation: "update",
+                        key: "appointments",
+                        value: data,
+                    },
+                ],
+            }),
+        });
+
+        const responseBody = await response.text();
+
+        if (!response.ok) {
+            console.error("Failed to update Edge Config:", responseBody);
+            throw new Error("Failed to update Edge Config");
+        }
 
         res.status(200).json({ message: "Appointment added successfully!", data });
     } catch (error) {
