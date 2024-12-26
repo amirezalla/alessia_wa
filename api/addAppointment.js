@@ -1,7 +1,7 @@
 const { get } = require("@vercel/edge-config");
 const fetch = require("node-fetch");
 
-const EDGE_CONFIG_ID = "alessia-wa-token"; // Replace with your Edge Config ID
+const EDGE_CONFIG_ID = "ecfg_mto8g7fjl7onvugnv6bdpe2wddao"; // Replace with your Edge Config ID
 const EDGE_CONFIG_TOKEN = process.env.EDGE_CONFIG_TOKEN; // Use a Vercel Environment Variable
 
 module.exports = async (req, res) => {
