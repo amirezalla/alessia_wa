@@ -18,9 +18,11 @@ module.exports = async (req, res) => {
     try {
         // Fetch existing appointments from Edge Config
         const data = (await get("appointments")) || [];
+        console.log("Existing appointments:", data);
 
         // Add new appointment
         data.push({ name, phone, date, time });
+        console.log("Updated appointments to be sent:", data);
 
         // Update Edge Config using the API
         const response = await fetch(`https://edge-config.vercel.com/v1/configs/${EDGE_CONFIG_ID}/items`, {
@@ -41,18 +43,11 @@ module.exports = async (req, res) => {
         });
 
         const responseBody = await response.text();
+        console.log("Edge Config API response:", responseBody);
 
         if (!response.ok) {
-            console.error("Failed to update Edge Config:", {
-                status: response.status,
-                statusText: response.statusText,
-                headers: response.headers,
-                body: responseBody,
-            });
-            throw new Error("Failed to update Edge Config");
+            throw new Error(`Failed to update Edge Config: ${response.status} ${response.statusText}`);
         }
-
-        console.log("Edge Config updated successfully:", responseBody);
 
         res.status(200).json({ message: "Appointment added successfully!", data });
     } catch (error) {
