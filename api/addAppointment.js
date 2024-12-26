@@ -1,4 +1,8 @@
-const { get, set } = require("@vercel/edge-config");
+const { get } = require("@vercel/edge-config");
+const fetch = require("node-fetch");
+
+const EDGE_CONFIG_ID = "alessia-wa-token"; // Replace with your Edge Config ID
+const EDGE_CONFIG_TOKEN = process.env.EDGE_CONFIG_TOKEN; // Use a Vercel Environment Variable
 
 module.exports = async (req, res) => {
     if (req.method !== "POST") {
@@ -18,8 +22,27 @@ module.exports = async (req, res) => {
         // Add new appointment
         data.push({ name, phone, date, time });
 
-        // Update the appointments key in Edge Config
-        await set("appointments", data);
+        // Update Edge Config using the API
+        const response = await fetch(`https://edge-config.vercel.com/v1/configs/${EDGE_CONFIG_ID}/items`, {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${EDGE_CONFIG_TOKEN}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                items: [
+                    {
+                        operation: "set",
+                        key: "appointments",
+                        value: data,
+                    },
+                ],
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to update Edge Config");
+        }
 
         res.status(200).json({ message: "Appointment added successfully!", data });
     } catch (error) {
