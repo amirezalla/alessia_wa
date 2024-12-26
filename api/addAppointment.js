@@ -1,8 +1,8 @@
 const { get } = require("@vercel/edge-config");
-const fetch = require("node-fetch");
+const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
-const EDGE_CONFIG_ID = "ecfg_mto8g7fjl7onvugnv6bdpe2wddao"; // Replace with your Edge Config ID
-const EDGE_CONFIG_TOKEN = "35e1cbaa-631b-499c-be7c-94188e81e73f"; // Use a Vercel Environment Variable
+const EDGE_CONFIG_ID = "ecfg_mto8g7fjl7onvugnv6bdpe2wddao";
+const EDGE_CONFIG_TOKEN = "35e1cbaa-631b-499c-be7c-94188e81e73f"; // Replace with an environment variable in production
 
 module.exports = async (req, res) => {
     if (req.method !== "POST") {
@@ -40,9 +40,14 @@ module.exports = async (req, res) => {
             }),
         });
 
+        const responseBody = await response.text();
+
         if (!response.ok) {
+            console.error("Failed to update Edge Config:", responseBody);
             throw new Error("Failed to update Edge Config");
         }
+
+        console.log("Edge Config updated successfully:", responseBody);
 
         res.status(200).json({ message: "Appointment added successfully!", data });
     } catch (error) {
