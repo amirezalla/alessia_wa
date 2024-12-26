@@ -3,5 +3,8 @@
         "@vercel/edge-config": "^1.4.0",
         "axios": "^1.0.0",
         "node-fetch": "^3.0.0"
+    },
+    "scripts": {
+        "start": "vercel env pull .env.development.local && node server.js"
     }
 }
