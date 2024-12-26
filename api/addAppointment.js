@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
         console.log("Updated appointments to be sent:", data);
 
         // Update Edge Config using the API
-        const response = await fetch(`https://edge-config.vercel.com/v1/configs/${EDGE_CONFIG_ID}/items`, {
+        const response = await fetch(`https://api.vercel.com/v1/edge-config/${EDGE_CONFIG_ID}/items`, {
             method: "PATCH",
             headers: {
                 Authorization: `Bearer ${EDGE_CONFIG_TOKEN}`,
