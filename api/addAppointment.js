@@ -2,7 +2,7 @@ const { get } = require("@vercel/edge-config");
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const EDGE_CONFIG_ID = "ecfg_mto8g7fjl7onvugnv6bdpe2wddao";
-const EDGE_CONFIG_TOKEN = "fFO1EbvmMyyVXbdhB4kvmIsF";
+const VERCEL_API_TOKEN = "fFO1EbvmMyyVXbdhB4kvmIsF";
 
 module.exports = async (req, res) => {
     if (req.method !== "POST") {
@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
         const response = await fetch(`https://api.vercel.com/v1/edge-config/${EDGE_CONFIG_ID}/items`, {
             method: "PATCH",
             headers: {
-                Authorization: `Bearer ${EDGE_CONFIG_TOKEN}`,
+                Authorization: `Bearer ${VERCEL_API_TOKEN}`,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
