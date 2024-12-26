@@ -88,14 +88,12 @@
         // Fetch appointments and populate table
         async function fetchAppointments(filter = "weekly") {
             try {
-                // Fetch appointments from the backend
                 const response = await fetch('/api/getAppointments');
                 const appointments = await response.json();
 
                 const now = new Date();
                 let filteredAppointments;
 
-                // Apply filtering logic based on the selected filter
                 if (filter === "weekly") {
                     const weekFromNow = new Date();
                     weekFromNow.setDate(now.getDate() + 7);
@@ -119,24 +117,22 @@
                     });
                 }
 
-                // Populate the appointments table with filtered data
                 populateTable(filteredAppointments);
             } catch (error) {
                 console.error("Error fetching appointments:", error);
             }
         }
 
-
         function populateTable(appointments) {
             appointmentTableBody.innerHTML = '';
             appointments.forEach(appointment => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-          <td>${appointment.name}</td>
-          <td>${appointment.phone}</td>
-          <td>${appointment.date}</td>
-          <td>${appointment.time}</td>
-        `;
+                    <td>${appointment.name}</td>
+                    <td>${appointment.phone}</td>
+                    <td>${appointment.date}</td>
+                    <td>${appointment.time}</td>
+                `;
                 appointmentTableBody.appendChild(row);
             });
         }
