@@ -6,7 +6,7 @@ const API_URL = "https://api.intobo.com/SendMessage/3d752c017109baa9d8c32d35d737
 const KEY = "258c81f30d5f2e21b1dd0adae08c08f9e7890163"; // Replace with your API key
 
 module.exports = async (req, res) => {
-    const filePath = path.resolve("../appointments.json");
+    const filePath = path.resolve("./appointments.json");
     const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
     const today = new Date();

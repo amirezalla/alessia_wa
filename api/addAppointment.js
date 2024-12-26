@@ -12,7 +12,7 @@ module.exports = (req, res) => {
         return res.status(400).json({ error: "Missing required fields" });
     }
 
-    const filePath = path.resolve("../appointments.json");
+    const filePath = path.resolve("./appointments.json");
     const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
     // Add new appointment
