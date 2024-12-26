@@ -1,5 +1,4 @@
-const fs = require("fs");
-const path = require("path");
+let appointments = []; // In-memory storage
 
 module.exports = (req, res) => {
     if (req.method !== "POST") {
@@ -12,14 +11,8 @@ module.exports = (req, res) => {
         return res.status(400).json({ error: "Missing required fields" });
     }
 
-    const filePath = path.resolve("./appointments.json");
-    const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-
     // Add new appointment
-    data.push({ name, phone, date, time });
+    appointments.push({ name, phone, date, time });
 
-    // Save updated data back to the file
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-
-    res.status(200).json({ message: "Appointment added successfully!" });
+    res.status(200).json({ message: "Appointment added successfully!", data: appointments });
 };
