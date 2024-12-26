@@ -2,7 +2,7 @@ const { get } = require("@vercel/edge-config");
 const fetch = require("node-fetch");
 
 const EDGE_CONFIG_ID = "ecfg_mto8g7fjl7onvugnv6bdpe2wddao";
-const EDGE_CONFIG_TOKEN = "35e1cbaa-631b-499c-be7c-94188e81e73f"; // Replace with an environment variable in production
+const EDGE_CONFIG_TOKEN = "35e1cbaa-631b-499c-be7c-94188e81e73f";
 
 module.exports = async (req, res) => {
     if (req.method !== "POST") {
@@ -43,7 +43,12 @@ module.exports = async (req, res) => {
         const responseBody = await response.text();
 
         if (!response.ok) {
-            console.error("Failed to update Edge Config:", responseBody);
+            console.error("Failed to update Edge Config:", {
+                status: response.status,
+                statusText: response.statusText,
+                headers: response.headers,
+                body: responseBody,
+            });
             throw new Error("Failed to update Edge Config");
         }
 
