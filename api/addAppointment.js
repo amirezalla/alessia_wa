@@ -1,5 +1,5 @@
 const { get } = require("@vercel/edge-config");
-const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const fetch = require("node-fetch");
 
 const EDGE_CONFIG_ID = "ecfg_mto8g7fjl7onvugnv6bdpe2wddao";
 const EDGE_CONFIG_TOKEN = "35e1cbaa-631b-499c-be7c-94188e81e73f"; // Replace with an environment variable in production
