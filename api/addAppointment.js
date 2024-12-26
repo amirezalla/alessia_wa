@@ -2,7 +2,7 @@ const { get } = require("@vercel/edge-config");
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const EDGE_CONFIG_ID = "ecfg_mto8g7fjl7onvugnv6bdpe2wddao";
-const EDGE_CONFIG_TOKEN = "35e1cbaa-631b-499c-be7c-94188e81e73f";
+const EDGE_CONFIG_TOKEN = "fFO1EbvmMyyVXbdhB4kvmIsF";
 
 module.exports = async (req, res) => {
     if (req.method !== "POST") {
