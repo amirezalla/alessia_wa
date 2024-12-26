@@ -125,7 +125,9 @@
 
         function populateTable(appointments) {
             appointmentTableBody.innerHTML = '';
+            console.log(appointments);
             appointments.forEach(appointment => {
+                console.log(appointment);
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${appointment.name}</td>
